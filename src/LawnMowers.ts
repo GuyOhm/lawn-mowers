@@ -72,6 +72,8 @@ export class LawnMowers {
   writeOutput() {
     const output = this.mowers.map((mower) => `${mower.position.x} ${mower.position.y} ${mower.orientation}`).join("\n");
     console.log(output);
-    writeFileSync("src/output.txt", output);
+    const outputPath = "src/output.txt";
+    writeFileSync(outputPath, output);
+    console.log(`Done. Output written to ${outputPath}`);
   }
 }
