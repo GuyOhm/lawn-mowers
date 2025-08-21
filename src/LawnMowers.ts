@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { Orientation, Position } from "./types";
 import { Mower } from "./Mower";
 
@@ -67,5 +67,11 @@ export class LawnMowers {
       case "W":
         return mower.position.x > this.lowerLeftCorner.x;
     }
+  }
+
+  writeOutput() {
+    const output = this.mowers.map((mower) => `${mower.position.x} ${mower.position.y} ${mower.orientation}`).join("\n");
+    console.log(output);
+    writeFileSync("src/output.txt", output);
   }
 }
