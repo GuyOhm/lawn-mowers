@@ -8,7 +8,7 @@ Mowers instructions can then be sequentialy executed. When over, an output file 
 
 ## Install project
 
-- `git clone `
+- `git clone git@github.com:GuyOhm/lawn-mowers.git`
 - `npm i`
 - `npm run test` to run unit tests
 - `npm tsc` to build the project
