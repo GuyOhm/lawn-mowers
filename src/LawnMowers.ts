@@ -41,4 +41,31 @@ export class LawnMowers {
 
     return [mower, ...this.parseMowers(lines.slice(2))];
   }
+
+  handleMowers() {
+    this.mowers.forEach((mower) => this.handleMower(mower));
+  }
+
+  private handleMower(mower: Mower) {
+    mower.instructions.split("").forEach((instruction) => {
+      if (instruction === "F" && this.canMove(mower)) {
+        mower.move();
+      } else if (instruction === "L" || instruction === "R") {
+        mower.turn(instruction);
+      }
+    });
+  }
+
+  private canMove(mower: Mower): boolean {
+    switch (mower.orientation) {
+      case "N":
+        return mower.position.y < this.upperRightCorner.y;
+      case "E":
+        return mower.position.x < this.upperRightCorner.x;
+      case "S":
+        return mower.position.y > this.lowerLeftCorner.y;
+      case "W":
+        return mower.position.x > this.lowerLeftCorner.x;
+    }
+  }
 }

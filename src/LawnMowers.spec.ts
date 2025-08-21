@@ -2,7 +2,6 @@ import { LawnMowers } from "./LawnMowers";
 
 describe("LawnMowers", () => {
   describe("uploading instructions file", () => {
-
     it("should throw an error if the file is not found", () => {
       const path = "src/not-found.txt";
       expect(() => {
@@ -25,6 +24,25 @@ describe("LawnMowers", () => {
       expect(lawnMowers.mowers[1].orientation).toEqual("E");
       expect(lawnMowers.mowers[1].instructions).toEqual("FFRFFRFRRF");
     });
+  });
 
-  })
+  describe("handling mowers", () => {
+    it("should move mowers according to their instructions", () => {
+      const lawnMowers = new LawnMowers("src/instructions.txt");
+      lawnMowers.handleMowers();
+      expect(lawnMowers.mowers[0].position).toEqual({ x: 1, y: 3 });
+      expect(lawnMowers.mowers[0].orientation).toEqual("N");
+      expect(lawnMowers.mowers[1].position).toEqual({ x: 5, y: 1 });
+      expect(lawnMowers.mowers[1].orientation).toEqual("E");
+    });
+
+    it("should not move if the mower has reached a boundary", () => {
+      const lawnMowers = new LawnMowers("src/boundaries.txt");
+      lawnMowers.handleMowers();
+      expect(lawnMowers.mowers[0].position).toEqual({ x: 0, y: 5 });
+      expect(lawnMowers.mowers[0].orientation).toEqual("E");
+    });
+  });
+
+
 });
