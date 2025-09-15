@@ -1,22 +1,23 @@
 import { LawnMowers } from "./LawnMowers";
+import path from "node:path";
 
 describe("LawnMowers", () => {
   describe("uploading instructions file", () => {
     it("should throw an error if the file is not found", () => {
-      const path = "src/not-found.txt";
+      const filePath = path.join(__dirname, "..", "input", "not-found.txt");
       expect(() => {
-        new LawnMowers(path);
+        new LawnMowers(filePath);
       }).toThrow("File not found");
     });
     
     it("should initialize LawnMowers upper right and lower left corners", () => {
-      const lawnMowers = new LawnMowers("src/instructions.txt");
+      const lawnMowers = new LawnMowers(path.join(__dirname, "..", "input", "instructions.txt"));
       expect(lawnMowers.lowerLeftCorner).toEqual({ x: 0, y: 0 });
       expect(lawnMowers.upperRightCorner).toEqual({ x: 5, y: 5 });
     });
 
     it ("should create mowers with initial position, orientation and instructions", () => {
-      const lawnMowers = new LawnMowers("src/instructions.txt");
+      const lawnMowers = new LawnMowers(path.join(__dirname, "..", "input", "instructions.txt"));
       expect(lawnMowers.mowers[0].position).toEqual({ x: 1, y: 2 });
       expect(lawnMowers.mowers[0].orientation).toEqual("N");
       expect(lawnMowers.mowers[0].instructions).toEqual("LFLFLFLFF");
@@ -28,7 +29,7 @@ describe("LawnMowers", () => {
 
   describe("handling mowers", () => {
     it("should move mowers according to their instructions", () => {
-      const lawnMowers = new LawnMowers("src/instructions.txt");
+      const lawnMowers = new LawnMowers(path.join(__dirname, "..", "input", "instructions.txt"));
       lawnMowers.handleMowers();
       expect(lawnMowers.mowers[0].position).toEqual({ x: 1, y: 3 });
       expect(lawnMowers.mowers[0].orientation).toEqual("N");
@@ -37,7 +38,7 @@ describe("LawnMowers", () => {
     });
 
     it("should not move if the mower has reached a boundary", () => {
-      const lawnMowers = new LawnMowers("src/boundaries.txt");
+      const lawnMowers = new LawnMowers(path.join(__dirname, "..", "input", "boundaries.txt"));
       lawnMowers.handleMowers();
       expect(lawnMowers.mowers[0].position).toEqual({ x: 0, y: 5 });
       expect(lawnMowers.mowers[0].orientation).toEqual("E");
