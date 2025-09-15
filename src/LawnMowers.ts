@@ -1,4 +1,5 @@
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import path from "node:path";
 import { Orientation, Position } from "./types";
 import { Mower } from "./Mower";
 
@@ -72,7 +73,12 @@ export class LawnMowers {
   writeOutput() {
     const output = this.mowers.map((mower) => `${mower.position.x} ${mower.position.y} ${mower.orientation}`).join("\n");
     console.log(output);
-    const outputPath = "src/output.txt";
+    const outputDir = path.join(__dirname, "..", "output");
+    const outputPath = path.join(outputDir, "output.txt");
+    
+    // Create output directory if it doesn't exist
+    mkdirSync(outputDir, { recursive: true });
+    
     writeFileSync(outputPath, output);
     console.log(`Done. Output written to ${outputPath}`);
   }
